@@ -21,7 +21,7 @@ const botConfig = {
             description: "finding any of these words sends a cheer up message",
             definedFunction: function (msg) { customFunctions.cheerUp(msg) } //function called by bot (initiated by discordBot.js)
         },
-/*
+
         */
     ],
     //allowedCommands: //empty array=all botCommands are allowed in this channel, given array, searching for all which is given
