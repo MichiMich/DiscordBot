@@ -8,11 +8,12 @@
 1. Head over to the discord developer settings at [discord developers](https://discord.com/login?redirect_to=%2Fdevelopers%2Fapplications) and login to your server.
 Create a new Application
 
-2. Go to Bot->copy your Token and insert it at the .env file, so it looks like this
+2. Go to Bot->copy your Token and insert it at the .env file
+![grafik](https://user-images.githubusercontent.com/31065571/170682421-bb609cd8-703c-406a-b734-35cc4b66ceef.png)
+so it looks like this:
 ```
 TOKEN="YourCreatedToken"
 ```
-add bot id copy img here
 
 3. setup your wanted configuration at bot.config.js
 
