@@ -1,5 +1,5 @@
-const helpfulScript = require("./helpful_script.js")
-const customFunctions = require("./custom_functions.js")
+const customFunctions = require("./custom_functions.js");
+
 const botConfig = {
 
     botCommands: [
