@@ -4,7 +4,7 @@ const Discord = require("discord.js")
 const client = new Discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS"] })
 //get in the configuration for this bot
 
-var globalBotconfig;//set by bot.config.js from user
+var botConfig = require(process.env.BOT_CONFIG_PATH);//set by user
 const helpfulScript = require("./helpful_script.js")
 
 
@@ -17,11 +17,11 @@ function callCustomFunctions(){
 */
 
 function callBotFunctions() {
-    if (globalBotconfig === undefined || globalBotconfig === null) {
+    if (botConfig === undefined || botConfig === null) {
         console.log("bot config not found, please create a bot.config.js file in the root of your folder")
         return;
     }
-    //else if (globalBotconfig.) //check if given custom functions are valid? what happens if triggered, but no function given?
+    //else if (botConfig.) //check if given custom functions are valid? what happens if triggered, but no function given?
 
     /*valid config, available functions here */
 
@@ -32,7 +32,7 @@ function callBotFunctions() {
 
 
     client.on('guildMemberAdd', member => {
-        globalBotconfig.welcomeUserSettings.welcomeMessage(member);
+        botConfig.welcomeUserSettings.welcomeMessage(member);
     });
 
     function botResponse(msg, allowedChannelConfig) {
@@ -46,15 +46,15 @@ function callBotFunctions() {
             //get channel, search if msg has allowedCommands in it, if allowed commands array is empty, search in all commands
             //now search what we should respond to
             let botCommands = "";
-            if (globalBotconfig.allowedChannels[indexOfAllowedElement].allowedCommands.length === 0) {
+            if (botConfig.allowedChannels[indexOfAllowedElement].allowedCommands.length === 0) {
                 //all commands are allowed
-                botCommands = globalBotconfig.botCommands.map(a => a.command);
+                botCommands = botConfig.botCommands.map(a => a.command);
             }
             else {
-                botCommands = globalBotconfig.allowedChannels[indexOfAllowedElement].allowedCommands;
+                botCommands = botConfig.allowedChannels[indexOfAllowedElement].allowedCommands;
             }
-            if (!reactOnCommand(msg, botCommands) && globalBotconfig.reactionSettings.reactOnUnknownCommands) {
-                msg.channel.send(globalBotconfig.reactionSettings.reactMessage)
+            if (!reactOnCommand(msg, botCommands) && botConfig.reactionSettings.reactOnUnknownCommands) {
+                msg.channel.send(botConfig.reactionSettings.reactMessage)
             }
         }
     }
@@ -91,23 +91,23 @@ function callBotFunctions() {
             }
         }
 
-        var indexOfCommand = globalBotconfig.botCommands.findIndex(a => a.command === wantedCommand);
+        var indexOfCommand = botConfig.botCommands.findIndex(a => a.command === wantedCommand);
         if (indexOfCommand != -1) {
             //available at config given commands
-            if (globalBotconfig.botCommands[indexOfCommand].needsToBeExactCommand) {
-                if (helpfulScript.hasExactString(msg.content, globalBotconfig.botCommands[indexOfCommand].command)) {
-                    if (globalBotconfig.botCommands[indexOfCommand].definedFunction == undefined) {
+            if (botConfig.botCommands[indexOfCommand].needsToBeExactCommand) {
+                if (helpfulScript.hasExactString(msg.content, botConfig.botCommands[indexOfCommand].command)) {
+                    if (botConfig.botCommands[indexOfCommand].definedFunction == undefined) {
                         logError("no function defined for this command", msg)
                         return
                     }
                     else {
-                        globalBotconfig.botCommands[indexOfCommand].definedFunction(msg);
+                        botConfig.botCommands[indexOfCommand].definedFunction(msg);
                         return (true)
                     }
                 }
             }
             else {
-                globalBotconfig.botCommands[indexOfCommand].definedFunction(msg);
+                botConfig.botCommands[indexOfCommand].definedFunction(msg);
                 return (true)
             }
         }
@@ -118,7 +118,7 @@ function callBotFunctions() {
     client.on("messageCreate", msg => {
         if (msg.author.bot) return //not replying to bot itself
         console.log("recieved message", msg.content)
-        botResponse(msg, globalBotconfig.allowedChannels)
+        botResponse(msg, botConfig.allowedChannels)
     })
 
 
