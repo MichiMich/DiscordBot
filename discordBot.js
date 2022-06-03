@@ -19,8 +19,9 @@ client.on('guildMemberAdd', member => {
 function botResponse(msg, allowedChannelConfig) {
     //is the bot allowed in her with this command
     let channelIdArray = allowedChannelConfig.map(a => a.channelId); //create array of channelIds from object array
+    let channelTypeArray = allowedChannelConfig.map(b => b.type);
 
-    let indexOfAllowedElement = helpfulScript.isBotAllowedExtended(msg.channel.id, channelIdArray)
+    let indexOfAllowedElement = helpfulScript.isBotAllowedExtended(msg.channel.id, channelIdArray, msg.channel.type, channelTypeArray);
     if (indexOfAllowedElement != -1) {
         //bot is allowed in this channel
         //get channel, search if msg has allowedCommands in it, if allowed commands array is empty, search in all commands

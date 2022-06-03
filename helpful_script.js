@@ -31,20 +31,38 @@ exports.isBotAllowed = function (channelId, allowedChannels) {
 }
 
 //returns the value of the found index, -1=not found
-exports.isBotAllowedExtended = function (channelId, allowedChannels) {
-    if (typeof allowedChannels != typeof []) {
-        console.log("allowedChannels type invalid, array expected");
+exports.isBotAllowedExtended = function (channelId, allowedChannels, msgType, allowedMsgTypes) {
+    //data validation
+    if (typeof allowedChannels != typeof [] && allowedMsgTypes != typeof []) {
+        //one of them needs to be an array
+        console.log("invalid input, array expected");
         return;
     }
-    for (var i = 0; i < allowedChannels.length; i++) {
-        if (channelId === allowedChannels[i]) {
-            return (i);
+
+    if (typeof allowedChannels != typeof []) {
+        console.log("searching for allowed channelId")
+        for (var i = 0; i < allowedChannels.length; i++) {
+            if (channelId !== undefined && channelId === allowedChannels[i]) {
+                return (i);
+            }
         }
     }
+
+    //if not allowed at given channelId, further check if channel type would be allowed
+    if (allowedMsgTypes != typeof []) {
+        console.log("searching for allowed message type: ", msgType)
+        //search for types as well
+        for (var i = 0; i < allowedMsgTypes.length; i++) {
+            console.log("search for type: ", allowedMsgTypes[i])
+            if (msgType == allowedMsgTypes[i]) {
+                return (i);
+            }
+        }
+    }
+    //nothing found, not allowed
     return (-1);
 }
 
-exports.get
 
 
 exports.createHelpCommand = function (botCommands) {

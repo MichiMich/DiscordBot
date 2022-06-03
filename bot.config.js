@@ -28,7 +28,8 @@ const botConfig = {
     allowedChannels: [
         {
             channelName: "", //discord channel name, not connected so far
-            channelId: "", //discord channel id, bot is only able to react in this channel
+            channelId: "", //discord channel id, bot is only able to react in this channeltype: 
+            type: "",//this is the channel type where the bot is also allowed ('DM' for example) to react for direct messages, see: https://discord.com/developers/docs/resources/channel
             allowedCommands: [] //empty array = bot will react on all of commands given at botCommands.command, ["hello"] = bot will only react on ["hello"] command given at botCommands.command
         },
         /*add more allowedChannels here*/
